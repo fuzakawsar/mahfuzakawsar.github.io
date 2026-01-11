@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 3 - Loading</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111; /* Dark background for loading screen */
+    font-family: 'Play', sans-serif;
+    color: #fff;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.loading-container {
+    width: 80%;
+    max-width: 500px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 30px;
+    margin-bottom: 20px;
+}
+
+.loading-bar {
+    height: 100%;
+    width: 0%;
+    background: cyan;
+    border-radius: 10px;
+    transition: width 0.2s ease-in-out;
+}
+
+.percentage {
+    font-size: 20px;
+}
+</style>
+</head>
+<body>
+
+<h1>Loading Page...</h1>
+<div class="loading-container">
+    <div class="loading-bar" id="loadingBar"></div>
+</div>
+<div class="percentage" id="percentage">0%</div>
+<audio id="loading-sound" src="loading.mp3" preload="auto" loop></audio>
+<script>
+let progress = 0;
+const loadingBar = document.getElementById('loadingBar');
+const percentageText = document.getElementById('percentage');
+const loadingSound = document.getElementById('loading-sound'); // 👈 Get audio
+
+// Start playing as soon as script runs
+// Note: Some browsers require a click first, so we play it inside the interval
+loadingSound.volume = 0.9;
+
+const interval = setInterval(() => {
+    // 👈 Attempt to play sound (if not already playing)
+    if (loadingSound.paused) {
+        loadingSound.play().catch(e => console.log("Waiting for user interaction..."));
+    }
+
+    progress += Math.floor(Math.random() * 5) + 1; 
+    
+    if(progress >= 100) progress = 100;
+
+    loadingBar.style.width = progress + "%";
+    percentageText.innerText = progress + "%";
+
+    if(progress >= 100) {
+        clearInterval(interval);
+        
+        // 👈 Stop the loading sound and reset it
+        loadingSound.pause();
+        loadingSound.currentTime = 0;
+
+        setTimeout(() => {
+            window.location.href = "page 4.html"; 
+        }, 800);
+    }
+}, 100);
+</script>
+
+</body>
+</html>

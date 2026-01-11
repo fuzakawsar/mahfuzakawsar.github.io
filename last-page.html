@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typewriter with Cursor</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("Frame 9 2.0.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    color: ghostwhite;
+    text-align: center;
+    flex-direction: column;
+}
+
+#typewriter {
+    font-size: 25px;
+    line-height: 1.5;
+}
+
+/* Cursor inside line */
+.cursor {
+    display: inline-block;
+    color: cyan;
+    animation: blink 0.7s step-start infinite;
+    vertical-align: bottom;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+
+.btn-wrapper {
+    margin-top: 40px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+.next-btn {
+    padding: 10px 28px;
+    font-family: 'Play', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: cyan;
+    background: transparent;
+    border: 2px solid cyan;
+    cursor: pointer;
+    box-shadow: 0 0 8px cyan;
+    transition: all 0.3s ease;
+    animation: glowLoop 2.5s ease-in-out infinite;
+    text-decoration: none;
+}
+
+.next-btn:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 16px cyan, 0 0 30px cyan;
+}
+
+@keyframes glowLoop {
+    0% { box-shadow: 0 0 6px cyan; }
+    50% { box-shadow: 0 0 14px cyan, 0 0 26px cyan; }
+    100% { box-shadow: 0 0 6px cyan; }
+}
+</style>
+</head>
+<body>
+
+<p id="typewriter"></p>
+
+<div class="btn-wrapper" id="btnWrapper">
+    <a href="page1.html" class="next-btn">RETAKE</a>
+</div>
+<audio id="readout-audio" src="last-page.mp3" preload="auto"></audio>
+<audio id="hover-audio" src="select.mp3" preload="auto"></audio>
+<script>
+const sentences = [
+    "In a world where anyone can sound real, your habits are your defence.",
+    "Thank you for playing."
+];
+
+const typewriter = document.getElementById('typewriter');
+const btnWrapper = document.getElementById('btnWrapper');
+const audio = document.getElementById('readout-audio');
+const hoverAudio = document.getElementById('hover-audio'); // 👈 Get hover audio
+const retakeBtn = document.querySelector('.next-btn'); // 👈 Target the button
+
+let sentenceIndex = 0;
+let charIndex = 0;
+
+const cursor = document.createElement('span');
+cursor.classList.add('cursor');
+cursor.textContent = '|';
+typewriter.appendChild(cursor);
+
+function type() {
+    if (sentenceIndex === 0 && charIndex === 0) {
+        audio.volume = 1.0;
+        audio.play().catch(e => console.log("Audio waiting for interaction"));
+    }
+
+    if (sentenceIndex < sentences.length) {
+        const currentSentence = sentences[sentenceIndex];
+
+        if (charIndex < currentSentence.length) {
+            cursor.insertAdjacentText('beforebegin', currentSentence[charIndex]);
+            charIndex++;
+            setTimeout(type, 50);
+        } else {
+            if (sentenceIndex < sentences.length - 1) {
+                const br = document.createElement('br');
+                typewriter.insertBefore(br, cursor);
+            }
+
+            sentenceIndex++;
+            charIndex = 0;
+            setTimeout(type, 800); 
+        }
+    } else {
+        btnWrapper.style.opacity = "1";
+        btnWrapper.style.pointerEvents = "auto";
+    }
+}
+
+// --- NEW HOVER LOGIC ---
+retakeBtn.addEventListener('mouseenter', () => {
+    hoverAudio.volume = 0.5;
+    hoverAudio.currentTime = 0; // Reset for snappy feedback
+    hoverAudio.play().catch(e => console.log("Hover sound blocked"));
+});
+
+type();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 2 - Popup</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: url("Frame 9 2.0.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Play', sans-serif;
+    overflow: hidden;
+    color: ghostwhite;
+    transition: opacity 0.6s ease;
+}
+
+
+/* Title */
+.page-title {
+    text-align: center;
+    margin-top: 85px;
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+/* Cards container */
+.options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+/* Individual card */
+.card {
+    width: 253px;
+    background: #3e4672;
+    border: 4px solid #eae4c4;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+    height: 300px;
+    position: relative;
+}
+
+/* POP EFFECT ON HOVER */
+.card:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255,255,255,0.3);
+    
+}
+
+
+/* Remove underline / link styling */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Elderly – warm gold */
+.card.elderly:hover {
+    box-shadow: 0 0 25px rgba(120, 255, 255, 0.8);
+}
+
+/* Students – cyan tech glow */
+.card.students:hover {
+    box-shadow: 0 0 25px rgba(120, 255, 255, 0.8);
+}
+
+/* Working adults – cool blue */
+.card.working:hover {
+    box-shadow: 0 0 25px rgba(120, 255, 255, 0.8);
+}
+
+
+/* Window header */
+.card-header {
+    background: #ece7c7;
+    color: #6b6545;
+    padding: 8px 12px;
+    font-weight: bold;
+    border-bottom: 2px solid #c5be9a;
+}
+
+/* Card content */
+.card-body {
+    padding: 12px;
+    font-size: 12px;
+}
+
+.card-body ul {
+    padding-left: 18px;
+}
+
+.card:active {
+    transform: scale(1.02);
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    transition: opacity 0.6s ease;
+}
+
+body.fade-out {
+    opacity: 0;
+}
+
+.card-link {
+    display: block;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;         /* square width */
+    height: 16px;        /* square height */
+    background-color: #ece7c7;
+    color: #736A3D;          /* X color, adjust if needed */
+    font-size: 12px;      /* make X fit inside the square */
+    font-family: 'Pixelify Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    line-height: 16px;    /* vertically center the X */
+    box-shadow: 1px 1px 0px rgba(10, 10, 10, 0.6); /* x=1px, y=1px, blue, 60% opacity */
+    user-select: none;    /* prevent text selection */
+
+}
+
+
+
+
+
+</style>
+</head>
+<body>
+
+   <h1 class="page-title">CHOOSE YOUR METHOD</h1>
+
+<div class="options">
+
+    <a href="gen-ai-working-adult.html" class="card-link" onclick="fadePage(event)">
+        <div class="card elderly">
+            <span class="card-close">X</span>
+
+            <div class="card-header">Fake Delivery SMS</div>
+            <div class="card-body">
+                <p>This scam pretends to be a delivery service you interact with regularly. The message claims there is an issue with your parcel, such as a missed delivery or incomplete address, and pressures you to act quickly.</br></br>
+Clicking the link may lead to a fake website designed to collect personal or payment details. What seems like a small inconvenience can quickly turn into financial loss or identity theft.</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="gen-ai-job-offer-workingadult.html" class="card-link" onclick="fadePage(event)">
+        <div class="card students">
+            <span class="card-close">X</span>
+            <div class="card-header">Job Offer Email</div>
+            <div class="card-body">
+                <p>This scam targets people looking for income, especially students or those under financial pressure.</br></br>
+The email appears casual and appealing, offering flexible work, fast payment, and little experience required.</br></br>
+Excitement or relief can lower suspicion, making victims more likely to comply.</br></br>
+Over time, they may be asked for personal details, upfront fees, or to move money, leading to financial loss, identity theft, or unintended involvement in illegal activity.</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="gen-ai-bank-alert-workingadult.html" class="card-link" onclick="fadePage(event)">
+        <div class="card working">
+            <span class="card-close">X</span>
+            <div class="card-header">Bank Account Alert</div>
+            <div class="card-body">
+                <p>This scam impersonates banks or financial institutions and claims there is suspicious activity or an urgent security issue.</br></br>
+The message pressures victims to act quickly to “secure” their account, often within a short timeframe.</br></br>
+Fear of financial loss can cause people to react without verifying the message through official channels.</br></br>
+Those who respond may give away login details or one-time passwords, leading to drained accounts and long, stressful recovery processes.</p>
+            </div>
+        </div>
+    </a>
+
+</div>
+<audio id="method-audio" src="page6.mp3" preload="auto"></audio>
+<audio id="hover-audio" src="select.mp3" preload="auto"></audio>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const audio = document.getElementById('method-audio');
+    const hoverSound = document.getElementById('hover-audio'); // 👈 Get hover sound
+
+    audio.volume = 1.0;
+    hoverSound.volume = 0.6; // 👈 Keep the beep a bit quieter than the voice
+    
+    // Play voiceover
+    audio.play().catch(e => {
+        window.addEventListener('mousemove', () => {
+            audio.play();
+        }, { once: true });
+    });
+
+    // --- NEW: Hover Sound Logic ---
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            // Reset the sound so it plays instantly if moving fast between cards
+            hoverSound.currentTime = 0; 
+            hoverSound.play().catch(e => console.log("Hover sound blocked"));
+        });
+    });
+});
+
+function fadePage(event) {
+    event.preventDefault();
+    const targetUrl = event.currentTarget.href;
+    document.body.classList.add('fade-out');
+    
+    setTimeout(() => {
+        window.location.href = targetUrl;
+    }, 600);
+}
+</script>
+
+</body>
+</html>

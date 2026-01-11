@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 2 - Popup</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: url("Frame 9 2.0.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Play', sans-serif;
+    overflow: hidden;
+    color: ghostwhite;
+    transition: opacity 0.6s ease;
+}
+
+
+/* Title */
+.page-title {
+    text-align: center;
+    margin-top: 85px;
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+/* Cards container */
+.options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+/* Individual card */
+.card {
+    width: 253px;
+    background: #3e4672;
+    border: 4px solid #eae4c4;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+    height: 300px;
+    position: relative;
+}
+
+/* POP EFFECT ON HOVER */
+.card:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255,255,255,0.3);
+    
+}
+
+
+/* Remove underline / link styling */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Elderly – warm gold */
+.card.elderly:hover {
+    box-shadow: 0 0 25px rgba(120, 255, 255, 0.8);
+}
+
+/* Students – cyan tech glow */
+.card.students:hover {
+    box-shadow: 0 0 25px rgba(120, 255, 255, 0.8);
+}
+
+/* Working adults – cool blue */
+.card.working:hover {
+    box-shadow: 0 0 25px rgba(120, 255, 255, 0.8);
+}
+
+
+/* Window header */
+.card-header {
+    background: #ece7c7;
+    color: #6b6545;
+    padding: 8px 12px;
+    font-weight: bold;
+    border-bottom: 2px solid #c5be9a;
+}
+
+/* Card content */
+.card-body {
+    padding: 20px;
+    font-size: 14px;
+}
+
+.card-body ul {
+    padding-left: 18px;
+}
+
+.card:active {
+    transform: scale(1.02);
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    transition: opacity 0.6s ease;
+}
+
+body.fade-out {
+    opacity: 0;
+}
+
+.card-link {
+    display: block;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;         /* square width */
+    height: 16px;        /* square height */
+    background-color: #ece7c7;
+    color: #736A3D;          /* X color, adjust if needed */
+    font-size: 12px;      /* make X fit inside the square */
+    font-family: 'Pixelify Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    line-height: 16px;    /* vertically center the X */
+    box-shadow: 1px 1px 0px rgba(10, 10, 10, 0.6); /* x=1px, y=1px, blue, 60% opacity */
+    user-select: none;    /* prevent text selection */
+
+}
+
+
+
+
+
+</style>
+</head>
+<body>
+
+   <h1 class="page-title">CHOOSE YOUR TARGET GROUP</h1>
+
+<div class="options">
+
+    <a href="page 6 (elderly).html" class="card-link" onclick="fadePage(event)">
+        <div class="card elderly">
+            <span class="card-close">X</span>
+
+            <div class="card-header">Elderly</div>
+            <div class="card-body">
+                <p><strong>Vulnerability:</strong></p>
+                <ul>
+                    <li>Lower digital literacy</li>
+                    <li>Higher trust in authority</li>
+                    <li>Panic-prone to urgency</li>
+                    <li>May live alone</li>
+                </ul>
+
+                <p>Elderly are more likely to trust official-looking messages and may act quickly out of fear of losing savings or access to services.</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="page 6 (students).html" class="card-link" onclick="fadePage(event)">
+        <div class="card students">
+            <span class="card-close">X</span>
+            <div class="card-header">Students</div>
+            <div class="card-body">
+                <p><strong>Vulnerability:</strong></p>
+                <ul>
+                    <li>Financial stress</li>
+                    <li>Job hunting</li>
+                    <li>Heavy phone usage</li>
+                    <li>FOMO</li>
+                </ul>
+
+                <p>Students are often targeted through fake job offers and giveaways, especially during periods of financial stress or deadlines.</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="page 6 (working adults).html" class="card-link" onclick="fadePage(event)">
+        <div class="card working">
+            <span class="card-close">X</span>
+            <div class="card-header">Working Adults</div>
+            <div class="card-body">
+                <p><strong>Vulnerability:</strong></p>
+                <ul>
+                    <li>Busy schedules</li>
+                    <li>Skim reading</li>
+                    <li>Work-message scams</li>
+                    <li>Digital banking reliance</li>
+                </ul>
+
+                <p>Working adults may overlook warning signs due to time pressure, especially when scams mimic routine work or banking messages.</p>
+            </div>
+        </div>
+    </a>
+
+</div>
+<audio id="title-audio" src="page5.mp3" preload="auto"></audio>
+<audio id="hover-audio" src="select.mp3" preload="auto"></audio>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing Title Audio Logic
+    const audio = document.getElementById('title-audio');
+    const hoverSound = document.getElementById('hover-audio'); // 👈 Get the hover sound
+    
+    audio.volume = 1.0;
+    hoverSound.volume = 0.6; // 👈 Set hover sound a bit quieter than voiceover
+    
+    audio.play().catch(e => {
+        console.log("Autoplay blocked.");
+        document.body.addEventListener('mouseenter', () => {
+            audio.play();
+        }, { once: true });
+    });
+
+    // --- NEW HOVER SOUND LOGIC ---
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            // Reset sound to start in case user hovers quickly between cards
+            hoverSound.currentTime = 0; 
+            hoverSound.play().catch(e => console.log("Hover sound blocked until interaction"));
+        });
+    });
+});
+
+function fadePage(event) {
+    event.preventDefault();
+    const link = event.currentTarget.href;
+    document.body.classList.add('fade-out');
+    setTimeout(() => {
+        window.location.href = link;
+    }, 600);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 4 - Typewriter</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start; /* 👈 move content left */
+    align-items: center;
+    background: url("Frame 9 2.0.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Play', sans-serif;
+    
+    color: ghostwhite;
+    overflow: hidden;
+    text-align: center;
+    flex-direction: column;
+}
+
+
+/* Title */
+.page-title {
+    text-align: center;
+    margin-top: 85px;
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+/* Cards container */
+.options {
+    display: flex;
+    justify-content: left;
+    gap: 40px;
+    margin-top: 50px;
+    margin-left: -350px;
+}
+
+/* Individual card */
+.card {
+    width: 500px;
+    background: #3e4672;
+    border: 4px solid #eae4c4;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 435px;
+    position: relative;
+    
+}
+
+
+
+
+/* Window header */
+.card-header {
+    background: #ece7c7;
+    border-bottom: 2px solid #c5be9a;
+    height: 32px;
+}
+
+/* Card content */
+.card-body {
+    padding: 20px;
+    font-size: 10px;
+    text-align: left;
+}
+
+.card-body ul {
+    padding-left: 18px;
+}
+
+body.fade-out {
+    opacity: 0;
+}
+
+.card-link {
+    display: block;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;         /* square width */
+    height: 16px;        /* square height */
+    background-color: #ece7c7;
+    color: #736A3D;          /* X color, adjust if needed */
+    font-size: 12px;      /* make X fit inside the square */
+    font-family: 'Pixelify Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    line-height: 16px;    /* vertically center the X */
+    box-shadow: 1px 1px 0px rgba(10, 10, 10, 0.6); /* x=1px, y=1px, blue, 60% opacity */
+    user-select: none;    /* prevent text selection */
+
+}
+
+
+/* Google Drive email layout */
+.drive-email {
+    font-size: 11px;
+    color: #ffffff;
+    align-self: stretch;
+    text-align: left;
+}
+
+/* Header row */
+.drive-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.drive-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #2ecc71;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.drive-avatar.small {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+}
+
+.drive-sender {
+    flex-grow: 1;
+}
+
+.drive-name {
+    font-weight: bold;
+}
+
+.drive-email-text,
+.drive-to {
+    opacity: 0.8;
+    font-size: 10px;
+}
+
+.drive-time {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+/* Inner Drive card */
+.drive-card {
+    border: 2px solid #eae4c4;
+    border-radius: 16px;
+    padding: 18px;
+    background: transparent;
+    text-align: left;
+}
+
+/* Title */
+.drive-card h3 {
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: 16px;
+}
+
+/* Invite row */
+.drive-invite {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* Message */
+.drive-message {
+    margin: 12px 0 16px 38px; /* 38px = avatar width + gap */
+}
+
+
+/* File pill */
+.drive-file {
+    display: inline-block;
+    background: #f2f2f2;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    margin-bottom: 16px;
+    margin-left: 38px; /* SAME alignment */
+
+}
+
+/* Open button */
+.drive-open-btn {
+    display: inline-block;
+    background: #1a73e8;
+    color: white;
+    padding: 6px 20px;
+    border-radius: 18px;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.drive-open-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;   /* centers button */
+    margin-top: 28px;          /* pushes it LOWER */
+}
+
+.drive-invite-text {
+    margin-left: 0;
+}
+
+.drive-invite-text p {
+    margin: 0;
+}
+
+.blue-icon {
+    color: #1a73e8; /* Google-blue style */
+}
+
+.drive-file img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 2px; /* smaller space between image and text */
+}
+
+.drive-warning {
+    margin-left: 20px;
+    font-size: 8px;
+    opacity: 0.8;
+    margin-top: 12px; /* ↑ adjust this to move it down */
+}
+
+.quiz-counter {
+    position: absolute;
+    top: 20px;       /* distance from the top */
+    right: 20px;     /* distance from the right */
+    font-size: 16px;
+    color: ghostwhite; /* or any color you want */
+    font-family: 'Play', sans-serif;
+    background: rgba(0,0,0,0.2); /* optional semi-transparent background */
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-right: -350px;
+    margin-top: -30px;
+}
+
+.quiz-instruction {
+    position: absolute;
+    top: 60px;       /* adjust: how far below the counter it should be */
+    right: 20px;     /* align with the counter */
+    font-size: 17px;
+    color: ghostwhite;
+    font-family: 'Play', sans-serif;
+    margin-right: -347px;
+    margin-top: 95px;
+}
+
+.quiz-instruction2 {
+    position: absolute;
+    top: 60px;       /* adjust: how far below the counter it should be */
+    right: 20px;     /* align with the counter */
+    font-size: 11px;
+    color: ghostwhite;
+    font-family: 'Play', sans-serif;
+    margin-right: -320px;
+    margin-top: 135px;
+}
+
+/* Quiz buttons container */
+.quiz-btn-wrapper {
+    position: absolute;
+    bottom: 20px;     /* distance from bottom of card */
+    right: 20px;      /* distance from right of card */
+    display: flex;
+    gap: 16px;
+    margin-right: -290px;
+    margin-bottom: 90px;
+}
+
+
+/* Base quiz button */
+.quiz-btn {
+    padding: 10px 26px;
+    font-family: 'Play', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+
+    background: transparent;
+    cursor: pointer;
+
+    border: 2px solid cyan;
+    color: cyan;
+
+    box-shadow: 0 0 8px cyan;
+    transition: all 0.3s ease;
+    animation: glowLoop 2.5s ease-in-out infinite;
+}
+
+/* Hover effect */
+.quiz-btn:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 16px cyan, 0 0 30px cyan;
+}
+
+
+.real-btn {
+    border-color: #00f5ff;
+    color: #00f5ff;
+}
+
+
+.fake-link {
+    cursor: pointer;       /* pointer cursor like real link */
+    text-decoration: none;
+}
+
+.fake-link:hover {
+    text-decoration: underline; /* mimics real link hover */
+    filter: brightness(1.1);
+}
+
+/* Popup styling */
+.custom-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 165px;
+    height: 65px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    display: none; /* hidden by default */
+    padding: 8px;
+    
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 90px;
+    margin-left: -100px;
+    
+    opacity: 0;           /* start invisible */
+    pointer-events: none;  /* prevents clicking when invisible */
+    transition: opacity 0.4s ease-in-out;
+}
+
+.custom-popup.show {
+    opacity: 1;             /* visible */
+    pointer-events: auto;   /* enable clicking */
+}
+
+.popup-text {
+    flex-grow: 1;
+    display: flex;
+    align-items: center; /* vertically center the text */
+    text-align: left;    /* left-align the text */
+    font-size: 9px;
+}
+
+.popup-next-btn {
+    background: #1a73e8;      /* same style as Open button */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 18px;
+    font-size: 11px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Play', sans-serif;
+    
+    align-self: center;  /* center horizontally */
+    margin-left: 100px;
+    margin-top: -6px;
+
+}
+
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out; /* smooth fade over 0.8s */
+}
+
+
+.url-status-bar {
+    position: absolute; /* Relative to the .card */
+    
+    /* MANUALLY ADJUST THESE VALUES */
+    bottom: -2px;  /* Increase this to move it UP */
+    left: -2px;    /* Increase this to move it RIGHT */
+    
+    background-color: #f1f1f1;
+    color: #444;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-family: sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    display: none; 
+    z-index: 100;
+    pointer-events: none;
+}
+
+
+
+</style>
+</head>
+<body>
+
+<div class="options">
+        <div class="card elderly">
+            <span class="card-close">X</span>
+
+            <div class="card-header"></div>
+            
+                <div class="card-body">
+    <div class="shake-wrapper">
+        <div class="drive-email">
+
+
+    <!-- Top sender row -->
+    <div class="drive-header">
+        <div class="drive-avatar">S</div>
+
+        <div class="drive-sender">
+    <strong>Sally Lim</strong> <span class="drive-email-text">&lt;sallyliim@gmail.com&gt;</span>
+    <div class="drive-to">to me</div>
+</div>
+
+
+        <div class="drive-time">10:33 AM</div>
+    </div>
+
+    <!-- Invite card -->
+    <div class="drive-card">
+        <h3>Sally Lim shared a document</h3>
+
+        <div class="drive-invite">
+    <div class="drive-avatar small">S</div>
+
+    <div class="drive-invite-text">
+        <p>
+            <strong>Sally Lim (sallyliim@gmail.com)</strong>
+            has invited you to <strong>edit</strong> the following document:
+        </p>
+    </div>
+    <div id="url-preview" class="url-status-bar">https://drive-google.com/hsagdhf6678</div>
+</div>
+
+
+
+        <p class="drive-message">
+            Hello, here is the proposal you asked me for!
+        </p>
+
+       <div class="drive-file">
+  <span class="fake-link"> <img src="google-docs.png" alt="Document">
+      <span style="position: relative; top: 1px;">Budget</span>
+  </span>
+</div>
+
+<div class="drive-open-wrapper">
+  <span class="drive-open-btn fake-link"> Open
+  </span>
+</div>
+
+
+
+
+    </div>
+<p class="drive-warning">
+    If you don’t want to receive files from this person, <strong>block the sender</strong> from Drive.
+</p>
+</div>
+
+
+<div class="quiz-counter">Question 1/5</div>
+<div class="quiz-instruction">Correct! This is a phishing email.</div>
+<div class="quiz-instruction2">The URL closely resembles a legitimate site.</br>Always be cautious when clicking links or</br>opening attachments in emails, as they may</br>lead to fake websites designed to collect</br>sensitive information.</div>
+
+<div class="quiz-btn-wrapper">
+    <button class="quiz-btn real-btn" id="showBtn">SHOW ME</button>
+</div>
+
+<!-- Popup -->
+<!-- Popup -->
+<!-- Popup -->
+<div id="popup" class="custom-popup">
+    <div class="popup-text">
+        A closer look at the link reveals it points to drive-google.com, a look-alike domain created to impersonate an official service.
+    </div>
+    <button id="nextBtn" class="popup-next-btn">Next</button>
+</div>
+
+
+<audio id="hover-audio" src="select.mp3" preload="auto"></audio>
+
+<script>
+const showBtn = document.getElementById('showBtn');
+const popup = document.getElementById('popup');
+const nextBtn = document.getElementById('nextBtn');
+const fakeLinks = document.querySelectorAll('.fake-link');
+const urlPreview = document.getElementById('url-preview');
+const hoverAudio = document.getElementById('hover-audio'); // 👈 Get hover audio
+
+// --- NEW: HOVER SOUND FOR SHOW ME BUTTON ---
+showBtn.addEventListener('mouseenter', () => {
+    // Only play if button is not disabled
+    if (!showBtn.disabled) {
+        hoverAudio.volume = 0.5;
+        hoverAudio.currentTime = 0;
+        hoverAudio.play().catch(e => console.log("Audio blocked"));
+    }
+});
+
+// --- NEW: HOVER SOUND FOR POPUP NEXT BUTTON ---
+nextBtn.addEventListener('mouseenter', () => {
+    hoverAudio.volume = 0.5;
+    hoverAudio.currentTime = 0;
+    hoverAudio.play().catch(e => console.log("Audio blocked"));
+});
+
+fakeLinks.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+        urlPreview.style.display = 'block';
+    });
+    link.addEventListener('mouseleave', () => {
+        urlPreview.style.display = 'none';
+    });
+});
+
+showBtn.addEventListener('click', () => {
+    showBtn.disabled = true;
+    showBtn.style.backgroundColor = 'grey';
+    showBtn.style.color = '#fff';
+    showBtn.style.borderColor = 'grey';
+    showBtn.style.boxShadow = 'none';
+    showBtn.style.cursor = 'not-allowed';
+    popup.classList.add('show');
+});
+
+nextBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+    document.body.classList.add('fade-out');
+    setTimeout(() => {
+        window.location.href = "ai-1.html"; 
+    }, 800);
+});
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

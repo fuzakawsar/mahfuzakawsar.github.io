@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Question 4 - AI Image Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: flex-start; 
+        align-items: flex-start;
+        background: url("Frame 9 2.0.png") no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Play', sans-serif;
+        color: ghostwhite;
+        overflow: hidden;
+    }
+
+    /* Replace .options with a centered container for the image */
+    .image-wrapper-main {
+        margin-top: 40px;  
+        margin-left: 70px; 
+    }
+
+    /* Standard Card style applied to the image */
+    .card {
+        width: 500px; /* Wider for an image */
+        background: #3e4672;
+        border: 4px solid #eae4c4;
+        box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        position: relative;
+        overflow: hidden; 
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+
+
+    .card-header {
+        background: #ece7c7;
+        border-bottom: 2px solid #c5be9a;
+        height: 25px;
+        color: #333;
+        font-weight: bold;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+    }
+
+    .card-body {
+        padding: 50px;
+        background: #1a1e36;
+        flex-grow: 1;           /* Fills the remaining height of the card */
+        display: flex;          /* Enables Flexbox */
+        justify-content: center; /* Centers horizontally */
+        align-items: center;    /* Centers vertically */
+    }
+
+    .ai-display-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Container alignment for text and buttons */
+    .quiz-ui-container {
+        position: absolute;
+        left: 650px; 
+        top: 80px;   
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .quiz-counter {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 16px;
+        color: ghostwhite;
+        font-family: 'Play', sans-serif;
+        background: rgba(0,0,0,0.2);
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
+
+    .quiz-instruction {
+        font-size: 17px;
+        color: ghostwhite;
+        margin-top: 120px;
+        text-align: left;
+    }
+
+    .quiz-instruction2 {
+        font-size: 11px;
+        color: ghostwhite;
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .quiz-btn-wrapper {
+        display: flex;
+        gap: 16px;
+        margin-top: 20px;
+        justify-content: flex-end;
+        width: 100%;
+        margin-left: -25px
+    }
+
+    .quiz-btn {
+        /* Set a fixed width so both buttons match regardless of text length */
+        width: 110px; 
+        
+        padding: 10px 0; /* Remove horizontal padding since width is fixed */
+        font-family: 'Play', sans-serif;
+        font-size: 14px;
+        letter-spacing: 2px;
+        background: transparent;
+        cursor: pointer;
+        border: 2px solid cyan;
+        color: cyan;
+        box-shadow: 0 0 8px cyan;
+        transition: all 0.3s ease;
+        text-align: center; /* Ensure text stays centered */
+    }
+
+    .quiz-btn:hover {
+        background: cyan;
+        color: black;
+        box-shadow: 0 0 16px cyan, 0 0 30px cyan;
+    }
+
+    .scam-btn { border-color: #ff5c5c; color: #ff5c5c; box-shadow: 0 0 8px #ff5c5c; }
+    .scam-btn:hover { background: #ff5c5c; box-shadow: 0 0 16px #ff5c5c; }
+
+    .custom-alert {
+        position: fixed;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-20px);
+        background: rgba(255,0,0,0.9);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1000;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .custom-alert.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+
+    .gif-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url("zeroone.gif") no-repeat center center fixed;
+        background-size: cover;
+        opacity: 0.1; /* Lowered slightly for better image visibility */
+        z-index: -1;
+        pointer-events: none;
+        filter: grayscale(100%) contrast(120%);
+    }
+
+    .ai-display-img {
+        width: 55%;            /* Adjust percentage to your liking */
+        height: auto;
+        display: block;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 0 15px rgba(0,0,0,0.5); /* Optional: adds depth */
+    }
+
+    .card-close {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    width: 16px;         /* square width */
+    height: 16px;        /* square height */
+    background-color: #ece7c7;
+    color: #736A3D;          /* X color, adjust if needed */
+    font-size: 12px;      /* make X fit inside the square */
+    font-family: 'Pixelify Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    line-height: 16px;    /* vertically center the X */
+    box-shadow: 1px 1px 0px rgba(10, 10, 10, 0.6); /* x=1px, y=1px, blue, 60% opacity */
+    user-select: none;    /* prevent text selection */
+
+}
+
+.shop-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 22px;
+    font-family: 'Play', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ece7c7;
+    border: 2px solid #ece7c7;
+    text-decoration: none;
+    box-shadow: 0 0 8px #ece7c7;
+    cursor: pointer; /* optional, adds pointer hover effect */
+    margin-left: 130px;
+}
+
+/* Popup overlay */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    justify-content: left;
+    align-items: center;
+    z-index: 999;
+    padding-left: 120px;
+    
+}
+
+/* Popup card (3/4 screen) */
+.popup-card {
+    width: 75vw;
+    height: 60vh;
+    background: #3e4672;
+    border: 4px solid #eae4c4;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Popup body scrollable */
+.popup-body {
+    background: #1a1e36;
+    flex: 1;
+    display: flex;
+    flex-direction: column;   /* stack items vertically */
+    justify-content: center;  /* center vertically */
+    align-items: center;      /* center horizontally */
+    padding: 20px;
+    overflow-y: auto;       /* keeps scroll if content is long */
+}
+
+
+/* Split layout inside popup */
+.split-layout {
+    display: block; /* no grid */
+}
+
+.prompt-panel {
+    display: flex;
+    flex-direction: column;   /* stack images and button vertically */
+    justify-content: center;  /* center vertically if needed */
+    align-items: center;      /* center horizontally */
+    gap: 16px;                /* space between elements */
+}
+
+.prompt-panel img {
+    display: block;
+    margin: 0 auto;           /* horizontal center */
+    max-width: 80%;           /* scale nicely on popup */
+    height: auto;
+}
+
+/* Prompt panel */
+.prompt-panel h4,
+.reference-panel h4 {
+    margin: 0 0 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #eae4c4;
+    text-transform: uppercase;
+}
+
+.prompt-panel p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: ghostwhite;
+}
+
+/* Reference image */
+.reference-panel img {
+    width: 100%;
+    border: 2px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 12px rgba(0,0,0,0.5);
+}
+
+.next-btn {
+    margin-top: 20px;
+    width: 120px;
+    padding: 10px 0;
+    font-family: 'Play', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    background: transparent;
+    cursor: pointer;
+    border: 2px solid cyan;
+    color: cyan;
+    box-shadow: 0 0 8px rgba(234,228,196,0.6);
+    transition: all 0.3s ease;
+     margin-left: -10px
+}
+
+.next-btn:hover {
+    background: cyan;
+    color: #1a1e36;
+    box-shadow: 0 0 16px rgba(234,228,196,0.9);
+}
+
+.goodtotes{
+    width: 50%;
+}
+</style>
+</head>
+<body>
+    <div class="gif-overlay"></div>
+
+    <div class="image-wrapper-main">
+    <div class="card">
+        <span class="card-close">X</span>
+        <div class="shake-inner">
+            <div class="card-header">System_Analysis_Viewer.exe</div>
+            <div class="card-body">
+                <p>Hey, Bestie! 👋</br></br>
+
+With the holiday season in full swing and plans stacking up, we're here to make getting dressed one less thing to stress about. 🌲</br></br>
+
+Here's our holiday style guide, curated for every invite you'll say yes to. 💋</br></br>
+
+Save this guide, pick your look, and step into the season feeling like that girl. 🖤</br></br>
+
+<span class="shop-btn">SHOP NOW</span>
+</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="quiz-ui-container">
+        <div class="shake-inner"> 
+            <div class="quiz-counter">Question 2/5</div>
+            <div class="quiz-instruction">
+                You got it!
+            </div>
+            <div class="quiz-instruction2">
+                This text is from an actual email</br>by Good Totes.
+            </div>
+            <div class="quiz-btn-wrapper">
+                <button class="quiz-btn real-btn">SHOW ME</button>
+            </div>
+        </div> 
+    </div>
+
+    <!-- POPUP OVERLAY -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-card shake-inner">
+
+        <span class="card-close popup-close">X</span>
+        <div class="card-header">AI_Explanation_Viewer.exe</div>
+
+        <div class="card-body popup-body split-layout">
+            
+            <!-- LEFT: Prompt -->
+            <div class="prompt-panel">
+                <h4>Email</h4>
+                <img src="goodtotes-1.png" alt="goodtotes">
+                <img src="goodtotes-2.png" alt="goodtotes">
+            
+                <button class="next-btn" id="nextBtn">NEXT</button>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<audio id="hover-audio" src="select.mp3" preload="auto"></audio>
+    <script>
+const realBtn = document.querySelector('.real-btn');
+const popupOverlay = document.getElementById('popupOverlay');
+const popupClose = document.querySelector('.popup-close');
+const nextBtn = document.getElementById('nextBtn');
+const hoverAudio = document.getElementById('hover-audio'); // 👈 Get hover audio
+
+// --- NEW: HOVER SOUND LOGIC ---
+const playHover = () => {
+    hoverAudio.volume = 0.5;      // Set volume to 50%
+    hoverAudio.currentTime = 0;   // Reset sound for snappy feedback
+    hoverAudio.play().catch(e => console.log("Audio waiting for interaction"));
+};
+
+// Attach hover sound to SHOW ME
+realBtn.addEventListener('mouseenter', playHover);
+
+// Attach hover sound to NEXT inside popup
+nextBtn.addEventListener('mouseenter', playHover);
+
+
+// Show popup logic
+realBtn.addEventListener('click', () => {
+    popupOverlay.style.display = 'flex';
+});
+
+// Close popup
+popupClose.addEventListener('click', () => {
+    popupOverlay.style.display = 'none';
+});
+
+// Click outside popup to close
+popupOverlay.addEventListener('click', (e) => {
+    if (e.target === popupOverlay) {
+        popupOverlay.style.display = 'none';
+    }
+});
+
+// NEXT → go to next page
+nextBtn.addEventListener('click', () => {
+    popupOverlay.style.display = 'none';
+    setTimeout(() => {
+        window.location.href = "dectector-3.html";
+    }, 200);
+});
+</script>
+
+</body>
+</html>

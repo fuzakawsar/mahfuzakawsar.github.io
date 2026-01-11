@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 4 - Flip Cards</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: url("Frame 9 2.0.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Play', sans-serif;
+    color: ghostwhite;
+    text-align: center;
+    padding-top: 60px;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 36px;
+    margin: 0 0 12px 0;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    max-width: 620px;
+    font-size: 18px;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin: 0 0 50px 0;
+    letter-spacing: 0.3px;
+}
+
+/* Card layout */
+.card-grid {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Flip card container */
+.flip-card {
+    width: 260px;
+    height: 180px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+/* Inner wrapper */
+.flip-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.7s ease;
+}
+
+/* Flip state */
+.flip-card.flipped .flip-inner {
+    transform: rotateY(180deg);
+}
+
+/* Front + back */
+.flip-front,
+.flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border: 2px solid cyan;
+    box-shadow: 0 0 12px rgba(0,255,255,0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    padding: 20px;
+}
+
+/* Front (wrong thinking) */
+.flip-front {
+    background: rgba(255, 0, 0, 0.08);
+    color: #ff5c5c;
+}
+
+/* Back (better thinking) */
+.flip-back {
+    background: rgba(0, 255, 180, 0.12);
+    color: #5cffb0;
+    transform: rotateY(180deg);
+}
+
+/* Next button at the bottom */
+/* Next button wrapper */
+.btn-wrapper {
+    margin-top: 20px;   /* small gap below cards */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+
+/* Glowing NEXT button */
+.next-btn {
+    padding: 10px 28px;
+    font-family: 'Play', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: cyan;
+    background: transparent;
+    border: 2px solid cyan;
+    cursor: pointer;
+    box-shadow: 0 0 8px cyan;
+    transition: all 0.3s ease;
+    animation: glowLoop 2.5s ease-in-out infinite;
+    text-decoration: none;
+}
+
+.next-btn:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 16px cyan, 0 0 30px cyan;
+}
+
+@keyframes glowLoop {
+    0% { box-shadow: 0 0 6px cyan; }
+    50% { box-shadow: 0 0 14px cyan, 0 0 26px cyan; }
+    100% { box-shadow: 0 0 6px cyan; }
+}
+</style>
+</head>
+<body>
+
+<h1 class="title">Don’t detect. Decide.</h1>
+<p class="subtitle">
+    Stop guessing if a message is real. Decide what action is safe to take.
+</p>
+
+<div class="card-grid">
+    <div class="flip-card">
+        <div class="flip-inner">
+            <div class="flip-front">
+                ❌<br>
+                Does this look real?
+            </div>
+            <div class="flip-back">
+                ✅<br>
+                What is this asking me to do?
+            </div>
+        </div>
+    </div>
+
+    <div class="flip-card">
+        <div class="flip-inner">
+            <div class="flip-front">
+                ❌<br>
+                Is this written by AI?
+            </div>
+            <div class="flip-back">
+                ✅<br>
+                What do I lose if I’m wrong?
+            </div>
+        </div>
+    </div>
+
+    <div class="flip-card">
+        <div class="flip-inner">
+            <div class="flip-front">
+                ❌<br>
+                Does this sound urgent?
+            </div>
+            <div class="flip-back">
+                ✅<br>
+                Can this be verified elsewhere?
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="btn-wrapper" id="btnWrapper">
+    <a href="page12.html" class="next-btn">NEXT</a>
+</div>
+<audio id="title-audio" src="page11.mp3" preload="auto"></audio>
+<audio id="hover-audio" src="select.mp3" preload="auto"></audio>
+<script>
+const flipCards = document.querySelectorAll('.flip-card');
+const btnWrapper = document.getElementById('btnWrapper');
+const audio = document.getElementById('title-audio');
+const hoverAudio = document.getElementById('hover-audio'); // 👈 Get hover audio
+const nextBtn = document.querySelector('.next-btn'); // 👈 Target the NEXT button
+
+// 1. Play Title Audio on Load
+document.addEventListener('DOMContentLoaded', () => {
+    audio.volume = 1.0;
+    audio.play().catch(e => {
+        window.addEventListener('click', () => {
+            audio.play();
+        }, { once: true });
+    });
+});
+
+// 2. Track flipped cards & handle Button visibility
+flipCards.forEach(card => {
+    card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+        
+        // OPTIONAL: Play the hover sound as a "flip" sound effect too
+        hoverAudio.currentTime = 0;
+        hoverAudio.play();
+
+        const allFlipped = Array.from(flipCards).every(c => c.classList.contains('flipped'));
+        if(allFlipped) {
+            btnWrapper.style.opacity = '1';
+            btnWrapper.style.pointerEvents = 'auto';
+        } else {
+            btnWrapper.style.opacity = '0';
+            btnWrapper.style.pointerEvents = 'none';
+        }
+    });
+});
+
+// --- NEW: NEXT BUTTON HOVER SOUND ---
+nextBtn.addEventListener('mouseenter', () => {
+    hoverAudio.volume = 0.5;
+    hoverAudio.currentTime = 0;
+    hoverAudio.play().catch(e => console.log("Hover sound blocked"));
+});
+</script>
+
+</body>
+</html>

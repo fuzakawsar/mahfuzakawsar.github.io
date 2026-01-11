@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Question 4 - AI Image Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: flex-start; 
+        align-items: flex-start;
+        background: url("Frame 9 2.0.png") no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Play', sans-serif;
+        color: ghostwhite;
+        overflow: hidden;
+    }
+
+    /* Replace .options with a centered container for the image */
+    .image-wrapper-main {
+        margin-top: 40px;  
+        margin-left: 70px; 
+    }
+
+    /* Standard Card style applied to the image */
+    .card {
+        width: 500px; /* Wider for an image */
+        background: #3e4672;
+        border: 4px solid #eae4c4;
+        box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        position: relative;
+        overflow: hidden; 
+        display: flex;
+        flex-direction: column;
+        transform: scale(0.5);
+        opacity: 0;
+        animation: popupIn 0.6s forwards ease-out;
+        
+    }
+
+    @keyframes popupIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        60% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .card-header {
+        background: #ece7c7;
+        border-bottom: 2px solid #c5be9a;
+        height: 25px;
+        color: #333;
+        font-weight: bold;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+    }
+
+    .card-body {
+        padding: 10px;
+        background: #1a1e36;
+        flex-grow: 1;           /* Fills the remaining height of the card */
+        display: flex;          /* Enables Flexbox */
+        justify-content: center; /* Centers horizontally */
+        align-items: center;    /* Centers vertically */
+    }
+
+    .ai-display-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Container alignment for text and buttons */
+    .quiz-ui-container {
+        position: absolute;
+        left: 650px; 
+        top: 80px;   
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        transform: scale(0.5);
+        opacity: 0;
+        animation: popupIn 0.6s forwards ease-out;
+    }
+
+    .quiz-counter {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 16px;
+        color: ghostwhite;
+        font-family: 'Play', sans-serif;
+        background: rgba(0,0,0,0.2);
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
+
+    .quiz-instruction {
+        font-size: 17px;
+        color: ghostwhite;
+        margin-top: 120px;
+        text-align: left;
+    }
+
+    .quiz-instruction2 {
+        font-size: 11px;
+        color: ghostwhite;
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .quiz-btn-wrapper {
+        display: flex;
+        gap: 16px;
+        margin-top: 20px;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    .quiz-btn {
+        /* Set a fixed width so both buttons match regardless of text length */
+        width: 90px; 
+        
+        padding: 10px 0; /* Remove horizontal padding since width is fixed */
+        font-family: 'Play', sans-serif;
+        font-size: 14px;
+        letter-spacing: 2px;
+        background: transparent;
+        cursor: pointer;
+        border: 2px solid cyan;
+        color: cyan;
+        box-shadow: 0 0 8px cyan;
+        transition: all 0.3s ease;
+        text-align: center; /* Ensure text stays centered */
+    }
+
+    .quiz-btn:hover {
+        background: cyan;
+        color: black;
+        box-shadow: 0 0 16px cyan, 0 0 30px cyan;
+    }
+
+    .scam-btn { border-color: #ff5c5c; color: #ff5c5c; box-shadow: 0 0 8px #ff5c5c; }
+    .scam-btn:hover { background: #ff5c5c; box-shadow: 0 0 16px #ff5c5c; }
+
+    .custom-alert {
+        position: fixed;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-20px);
+        background: rgba(255,0,0,0.9);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1000;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .custom-alert.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Enhanced Shake Animation */
+    @keyframes shake {
+    0%   { transform: translateX(0); }
+    20%  { transform: translateX(-10px); }
+    40%  { transform: translateX(10px); }
+    60%  { transform: translateX(-10px); }
+    80%  { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+
+    /* We use !important to override the popupIn animation state during the shake */
+    .shake { 
+        animation: shake 0.4s ease-in-out !important; 
+    }
+
+    .gif-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url("zeroone.gif") no-repeat center center fixed;
+        background-size: cover;
+        opacity: 0.1; /* Lowered slightly for better image visibility */
+        z-index: -1;
+        pointer-events: none;
+        filter: grayscale(100%) contrast(120%);
+    }
+
+    .ai-display-img {
+        width: 55%;            /* Adjust percentage to your liking */
+        height: auto;
+        display: block;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 0 15px rgba(0,0,0,0.5); /* Optional: adds depth */
+    }
+
+    .card-close {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    width: 16px;         /* square width */
+    height: 16px;        /* square height */
+    background-color: #ece7c7;
+    color: #736A3D;          /* X color, adjust if needed */
+    font-size: 12px;      /* make X fit inside the square */
+    font-family: 'Pixelify Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    line-height: 16px;    /* vertically center the X */
+    box-shadow: 1px 1px 0px rgba(10, 10, 10, 0.6); /* x=1px, y=1px, blue, 60% opacity */
+    user-select: none;    /* prevent text selection */
+
+}
+
+</style>
+</head>
+<body>
+    <div class="gif-overlay"></div>
+
+    <div class="image-wrapper-main">
+    <div class="card">
+        <span class="card-close">X</span>
+        <div class="shake-inner">
+            <div class="card-header">System_Analysis_Viewer.exe</div>
+            <div class="card-body">
+                <img src="fakegrabad.png" alt="AI Generated content" class="ai-display-img">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="quiz-ui-container">
+        <div class="shake-inner"> 
+            <div class="quiz-counter">Question 1/5</div>
+            <div class="quiz-instruction">
+                Scanning image for <br> anomalies... <br>
+            </div>
+            <div class="quiz-instruction2">
+                Do you think this image was <br> generated by an Artificial Intelligence?
+            </div>
+            <div class="quiz-btn-wrapper">
+                <button class="quiz-btn scam-btn">AI</button>
+                <button class="quiz-btn real-btn">REAL</button>
+            </div>
+        </div> 
+    </div>
+
+    <div class="custom-alert">❌ Wrong! Please Try Again!</div>
+<audio id="hover-audio" src="select.mp3" preload="auto"></audio>
+    <script>
+    const realBtn = document.querySelector('.real-btn');
+    const scamBtn = document.querySelector('.scam-btn'); 
+    const shakeItems = document.querySelectorAll('.shake-inner');
+    const alertBox = document.querySelector('.custom-alert');
+    const hoverAudio = document.getElementById('hover-audio'); // 👈 Get hover audio
+
+    // --- NEW: HOVER SOUND LOGIC FOR BOTH BUTTONS ---
+    const quizBtns = document.querySelectorAll('.quiz-btn');
+    quizBtns.forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            hoverAudio.volume = 0.5;      // Set volume to 50%
+            hoverAudio.currentTime = 0;   // Reset sound for snappy feedback
+            hoverAudio.play().catch(e => console.log("Hover sound blocked"));
+        });
+    });
+
+    // Clicking "REAL" triggers the shake (Wrong Answer)
+    realBtn.addEventListener('click', () => {
+        shakeItems.forEach(item => {
+            item.classList.remove('shake');
+            void item.offsetWidth; // Trigger reflow
+            item.classList.add('shake');
+        });
+
+        alertBox.classList.add('show');
+
+        setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 1500);
+    });
+
+    // Clicking "AI" is the Correct Answer
+    scamBtn.addEventListener('click', () => {
+        window.location.href = "detector-1-2.html"; 
+    });
+</script>
+</body>
+</html>

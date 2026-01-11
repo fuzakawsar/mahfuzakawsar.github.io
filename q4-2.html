@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 4 - Typewriter</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start; /* 👈 move content left */
+    align-items: center;
+    background: url("Frame 9 2.0.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Play', sans-serif;
+    
+    color: ghostwhite;
+    overflow: hidden;
+    text-align: center;
+    flex-direction: column;
+}
+
+
+/* Title */
+.page-title {
+    text-align: center;
+    margin-top: 85px;
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+/* Cards container */
+.options {
+    display: flex;
+    justify-content: left;
+    gap: 40px;
+    margin-top: 50px;
+    margin-left: -350px;
+}
+
+/* Individual card */
+.card {
+    width: 500px;
+    background: #3e4672;
+    border: 4px solid #eae4c4;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 435px;
+    position: relative;
+}
+
+
+
+/* Window header */
+.card-header {
+    background: #ece7c7;
+    border-bottom: 2px solid #c5be9a;
+    height: 32px;
+}
+
+/* Card content */
+.card-body {
+    padding: 20px;
+    font-size: 10px;
+    text-align: left;
+}
+
+.card-body ul {
+    padding-left: 18px;
+}
+
+body.fade-out {
+    opacity: 0;
+}
+
+.card-link {
+    display: block;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;         /* square width */
+    height: 16px;        /* square height */
+    background-color: #ece7c7;
+    color: #736A3D;          /* X color, adjust if needed */
+    font-size: 12px;      /* make X fit inside the square */
+    font-family: 'Pixelify Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    line-height: 16px;    /* vertically center the X */
+    box-shadow: 1px 1px 0px rgba(10, 10, 10, 0.6); /* x=1px, y=1px, blue, 60% opacity */
+    user-select: none;    /* prevent text selection */
+
+}
+
+
+/* Google Drive email layout */
+.drive-email {
+    font-size: 11px;
+    color: #ffffff;
+    align-self: stretch;
+    text-align: left;
+}
+
+/* Header row */
+.drive-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.drive-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.drive-avatar.small {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+}
+
+.drive-sender {
+    flex-grow: 1;
+}
+
+.drive-name {
+    font-weight: bold;
+}
+
+.drive-email-text,
+.drive-to {
+    opacity: 0.8;
+    font-size: 10px;
+}
+
+.drive-time {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+/* Inner Drive card */
+.drive-card {
+    border: 2px solid #eae4c4;
+    border-radius: 16px;
+    padding: 18px;
+    background: transparent;
+    text-align: left;
+}
+
+/* Title */
+.drive-card h3 {
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: 16px;
+}
+
+/* Invite row */
+.drive-invite {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* Message */
+.drive-message {
+    margin: 12px 0 16px 38px; /* 38px = avatar width + gap */
+}
+
+
+/* File pill */
+.drive-file {
+    display: inline-block;
+    background: #f2f2f2;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    margin-bottom: 16px;
+    margin-left: 38px; /* SAME alignment */
+
+}
+
+/* Open button */
+.drive-open-btn {
+    display: inline-block;
+    background: #1a73e8;
+    color: white;
+    padding: 6px 20px;
+    border-radius: 18px;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.drive-open-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;   /* centers button */
+    margin-top: 28px;          /* pushes it LOWER */
+}
+
+.drive-invite-text {
+    margin-left: 0;
+}
+
+.drive-invite-text p {
+    margin: 0;
+}
+
+.blue-icon {
+    color: #1a73e8; /* Google-blue style */
+}
+
+.drive-file img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 2px; /* smaller space between image and text */
+}
+
+.drive-warning {
+    margin-left: 20px;
+    font-size: 8px;
+    opacity: 0.8;
+    margin-top: 12px; /* ↑ adjust this to move it down */
+}
+
+.quiz-counter {
+    position: absolute;
+    top: 20px;       /* distance from the top */
+    right: 20px;     /* distance from the right */
+    font-size: 16px;
+    color: ghostwhite; /* or any color you want */
+    font-family: 'Play', sans-serif;
+    background: rgba(0,0,0,0.2); /* optional semi-transparent background */
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-right: -350px;
+    margin-top: -20px;
+}
+
+.quiz-instruction {
+    position: absolute;
+    top: 60px;       /* adjust: how far below the counter it should be */
+    right: 20px;     /* align with the counter */
+    font-size: 17px;
+    color: ghostwhite;
+    font-family: 'Play', sans-serif;
+    margin-right: -310px;
+    margin-top: 50px;
+}
+
+.quiz-instruction2 {
+    position: absolute;
+    top: 60px;       /* adjust: how far below the counter it should be */
+    right: 20px;     /* align with the counter */
+    font-size: 11px;
+    color: ghostwhite;
+    font-family: 'Play', sans-serif;
+    margin-right: -310px;
+    margin-top: 80px;
+}
+
+/* Quiz buttons container */
+.quiz-btn-wrapper {
+    position: absolute;
+    bottom: 20px;     /* distance from bottom of card */
+    right: 20px;      /* distance from right of card */
+    display: flex;
+    gap: 16px;
+    margin-right: -300px;
+    margin-bottom: 90px;
+}
+
+
+/* Base quiz button */
+.quiz-btn {
+    padding: 10px 26px;
+    font-family: 'Play', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+
+    background: transparent;
+    cursor: pointer;
+
+    border: 2px solid cyan;
+    color: cyan;
+
+    box-shadow: 0 0 8px cyan;
+    transition: all 0.3s ease;
+    animation: glowLoop 2.5s ease-in-out infinite;
+}
+
+/* Hover effect */
+.quiz-btn:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 16px cyan, 0 0 30px cyan;
+}
+
+/* Optional: differentiate buttons subtly */
+.scam-btn {
+    border-color: #ff5c5c;
+    color: #ff5c5c;
+    box-shadow: 0 0 8px #ff5c5c;
+}
+
+.scam-btn:hover {
+    background: #ff5c5c;
+    color: black;
+    box-shadow: 0 0 16px #ff5c5c, 0 0 30px #ff5c5c;
+}
+
+.real-btn {
+    border-color: #00f5ff;
+    color: #00f5ff;
+}
+
+
+.custom-alert {
+    position: fixed;
+    top: 20px;               /* distance from top of screen */
+    left: 90%;               /* center horizontally */
+    transform: translateX(-50%) translateY(-20px); /* slide down effect */
+    background: rgba(255,0,0,0.9);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Play', sans-serif;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1000;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    text-align: center;      /* ensures text is centered */
+    min-width: 200px;        /* optional: ensures alert isn’t too small */
+}
+
+.custom-alert.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0); /* slides down */
+}
+
+
+.fake-link {
+    cursor: pointer;       /* pointer cursor like real link */
+    text-decoration: none;
+}
+
+.fake-link:hover {
+    text-decoration: underline; /* mimics real link hover */
+    filter: brightness(1.1);
+}
+
+.ad-wrapper {
+    text-align: left;  /* centers the image */
+    margin: 16px 0;      /* space above and below */
+}
+
+.ad-image {
+    width: 60%;          /* scales image to 80% of container width */
+    max-width: 400px;    /* optional: prevents it from getting too large */
+    height: auto;        /* keeps aspect ratio */
+    border-radius: 12px; /* optional: rounded corners */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* optional shadow */
+    margin-left: 35px;
+}
+
+.shake-inner {
+    will-change: transform;
+}
+
+.drive-email p {
+    margin-left: 44px; /* This aligns the text with the start of the sender's name */
+    margin-right: 20px;
+    line-height: 1.4;  /* Makes the paragraph easier to read */
+}
+
+.fake-blue-link {
+    color: #6fa1e3;            /* Google/DBS blue color */
+    text-decoration: underline; /* The underline */
+    cursor: pointer;           /* Makes the hand icon appear */
+    font-weight: bold;         /* Makes it pop a bit more */
+}
+
+.fake-blue-link:hover {
+    color: #3c79dc;            /* Slightly darker blue on hover for realism */
+}
+
+.url-status-bar {
+    position: absolute; /* Relative to the .card */
+    
+    /* MANUALLY ADJUST THESE VALUES */
+    bottom: -2px;  /* Increase this to move it UP */
+    left: -2px;    /* Increase this to move it RIGHT */
+    
+    background-color: #f1f1f1;
+    color: #444;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-family: sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    display: none; 
+    z-index: 100;
+    pointer-events: none;
+}
+
+.storage-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* ✅ not center */
+    text-align: left;     /* base alignment */
+    padding: 14px 40px;
+    gap: 14px;
+}
+
+
+/* Icon */
+.alert-icon {
+    font-size: 36px;
+    opacity: 0.9;
+}
+
+/* Title */
+.storage-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Labels above bar */
+.storage-labels {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    opacity: 0.9;
+}
+
+/* Progress bar */
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 70%; /* ← controls fill */
+    height: 100%;
+    background: #e6e6e6;
+    border-radius: 10px;
+}
+
+/* Footer */
+.storage-footer {
+    font-size: 10px;
+    margin-top: 10px;
+}
+
+.storage-footer a {
+    color: #cfe3ff;
+    text-decoration: underline;
+}
+
+.storage-footer.muted {
+    opacity: 0.85;
+}
+
+.storage-title {
+    margin-top: 0;
+}
+
+/* 1. Reset the container to allow full width */
+.storage-card {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 0px !important;
+    width: 100%;
+    margin-top: -35px;
+}
+
+/* 2. CENTERED SECTION (Icon, Title, Bar) */
+.storage-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers the children */
+    text-align: center;
+    width: 100%;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+/* Ensure the bar stays a consistent width even when centered */
+.progress-bar {
+    width: 90%; /* Adjust percentage to control how wide the bar is */
+    height: 12px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.storage-labels {
+    width: 90%; /* Match the progress bar width */
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+
+/* 3. LEFT-ALIGNED SECTION (Text and List) */
+.storage-left {
+    width: 100%;
+    text-align: left;
+    /* This ensures it aligns with the START of the progress bar */
+    padding-left: 5%; /* If bar is 90% wide, 5% padding centers it. This aligns the text to the bar's edge. */
+    box-sizing: border-box;
+}
+
+.storage-desc {
+    font-size: 10px;
+    line-height: 1.5;
+    margin: 0 0 10px 0;
+    width: 95%; /* Prevents text from hitting the right edge */
+}
+
+.storage-list {
+    font-size: 10px;
+    margin: 0;
+    padding-left: 18px; /* Room for bullets */
+    list-style-position: outside;
+}
+
+/* 4. REMOVE the margin-left that was forcing the text to shift */
+.drive-email p {
+    margin-left: 0 !important;
+}
+
+.google-one-text {
+    font-size: 10px;
+    line-height: 1.5;
+    margin-top: 10px !important; /* Adjust this to move the sentence up or down */
+    text-align: left;
+    opacity: 0.95;
+    padding: 0;
+}
+
+/* This makes sure the "fake link" looks like the real Google One blue */
+.fake-blue-link {
+    color: #8ab4f8; /* A slightly lighter, more modern Google blue */
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.custom-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 165px;
+    height: 45px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    display: none;
+    flex-direction: column;   /* 🔑 IMPORTANT */
+    padding: 8px;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    z-index: 2000;
+}
+
+.popup-1 {
+    top: 27%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+}
+
+.popup-2 {
+    top: 90%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.custom-popup.show {
+    display: flex;
+    opacity: 1;
+}
+
+
+.popup-text {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font-size: 9px;
+}
+
+
+.popup-next-btn {
+    background: #1a73e8;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 18px;
+    font-size: 11px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Play', sans-serif;
+
+    align-self: flex-end;   /* 🔑 aligns button to bottom-right */
+    margin-top: 2px;
+}
+
+
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out; /* smooth fade over 0.8s */
+}
+
+.quiz-btn.disabled {
+    background: #777;
+    color: #222;
+    border-color: #777;
+    box-shadow: none;
+    cursor: not-allowed;
+    animation: none;
+}
+
+.quiz-btn.disabled:hover {
+    background: #777;
+    color: #222;
+}
+/* We'll use JS to show this, but you could also do it with CSS if the elements were adjacent */
+/* We'll use JS to show this, but you could also do it with CSS if the elements were adjacent */
+
+</style>
+</head>
+<body>
+
+<div class="options">
+        <div class="card elderly">
+            <span class="card-close">X</span>
+
+            <div class="card-header"></div>
+            
+                <div class="card-body">
+
+    <div class="shake-all">
+        <div class="shake-inner">
+        
+
+        <div class="shake-wrapper">
+            <div class="drive-email">
+
+                <div class="drive-header">
+                    <div class="drive-avatar">G</div>
+
+                    <div class="drive-sender">
+                        <strong>Google</strong>
+                        <span class="drive-email-text">
+                            &lt;google-noreply@google.com&gt;
+                        </span>
+                        <div class="drive-to">to me</div>
+                    </div>
+
+                    <div class="drive-time">7:56 AM</div>
+                </div>
+                    <div class="storage-card">
+
+    <!-- 1. Icon -->
+    <!-- Top centered section -->
+<div class="storage-top">
+    <div class="alert-icon">⚠️</div>
+    <h1 class="storage-title">Your Gmail Storage is almost full</h1>
+    <div class="storage-labels">
+        <span>10.51 GB Used</span>
+        <span>15 GB Used</span>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+</div>
+
+<!-- Left-aligned section -->
+<div class="storage-left">
+    <p class="storage-desc">
+        You've used 70% of the 15 GB of Google Account storage that is shared across
+        Google Drive, Gmail, and Google Photos. Once you run out of space, some
+        services will be interrupted and you won't be able to:
+    </p>
+
+    <ul class="storage-list">
+        <li>Send or receive emails in your Gmail account</li>
+        <li>Upload new files to Google Drive</li>
+        <li>Edit or create new files using Google Docs, Sheets, Slides, Forms</li>
+        <li>Back up new photos and videos</li>
+    </ul>
+
+    <p class="google-one-text">
+        You can always get more storage by <span class="fake-blue-link">signing up for Google One.</span>
+    </p>
+</div>
+
+</div>
+
+
+
+            </div>
+
+            <p class="drive-warning">
+                If you no longer wish to receive these emails, you may unsubscribe by <strong>clicking here.</strong>
+                
+            </p>
+        </div>
+
+        <div class="quiz-counter">Question 4/5</div>
+        <div class="quiz-instruction">Nice catch! It’s real!</div>
+        <div class="quiz-instruction2">You spot the legitimate email</br>and secure links!</div>
+
+        <div class="quiz-btn-wrapper">
+            <button id="showBtn" class="quiz-btn real-btn">SHOW ME</button>
+        </div>
+        </div>
+
+    </div> <!-- END shake-all -->
+
+</div>
+
+<div id="url-preview" class="url-status-bar">https://one.google.com/about/plans?g1_landing_page=0</div>
+<div id="popup" class="custom-popup popup-1">
+            <div class="popup-text">
+                A quick search for google.com will show that it’s legitimate.
+            </div>
+            <button id="nextBtn" class="popup-next-btn">Next</button>
+        </div>
+
+        <div id="popup2" class="custom-popup popup-2">
+            <div class="popup-text">
+                The URL is legitimate, secure link to google.com.
+            </div>
+            <button id="finalBtn" class="popup-next-btn">Next</button>
+        </div>
+    </div> </div>
+    <audio id="hover-audio" src="select.mp3" preload="auto"></audio>
+<script>
+    // Define all elements at the top
+    const fakeLink = document.querySelector('.fake-blue-link');
+    const urlPreview = document.getElementById('url-preview');
+    const showBtn = document.getElementById('showBtn');
+    const popup1 = document.getElementById('popup');
+    const popup2 = document.getElementById('popup2');
+    const nextBtn = document.getElementById('nextBtn');
+    const finalBtn = document.getElementById('finalBtn');
+    const hoverAudio = document.getElementById('hover-audio'); // 👈 Get hover audio
+
+    // --- NEW: HOVER SOUND LOGIC ---
+    const playHover = () => {
+        hoverAudio.volume = 0.5;
+        hoverAudio.currentTime = 0; // Restart sound for snappy feedback
+        hoverAudio.play().catch(e => console.log("Audio blocked"));
+    };
+
+    // Hover for SHOW ME (only if not disabled)
+    showBtn.addEventListener('mouseenter', () => {
+        if (!showBtn.disabled) playHover();
+    });
+
+    // Hover for Popup Buttons
+    nextBtn.addEventListener('mouseenter', playHover);
+    finalBtn.addEventListener('mouseenter', playHover);
+
+    // URL Status Bar Logic
+    if (fakeLink && urlPreview) {
+        fakeLink.addEventListener('mouseenter', () => {
+            urlPreview.style.display = 'block';
+        });
+
+        fakeLink.addEventListener('mouseleave', () => {
+            urlPreview.style.display = 'none';
+        });
+    }
+
+    // STEP 1: Show first popup
+    showBtn.addEventListener('click', () => {
+        showBtn.disabled = true;
+        showBtn.classList.add('disabled');
+        popup1.classList.add('show');
+    });
+
+    // STEP 2: Show second popup
+    nextBtn.addEventListener('click', () => {
+        popup1.classList.remove('show');
+        popup2.classList.add('show');
+    });
+
+    // STEP 3: Fade out + redirect
+    finalBtn.addEventListener('click', () => {
+        popup2.classList.remove('show');
+        document.body.classList.add('fade-out');
+
+        setTimeout(() => {
+            window.location.href = "ai-4.html";
+        }, 800);
+    });
+</script>
+
+
+
+
+</body>
+</html>
