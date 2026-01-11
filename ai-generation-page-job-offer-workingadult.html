@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Generating...</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #030303;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Pixelify Sans', sans-serif;
+    color:cyan;
+}
+
+/* Container */
+.loading-box {
+    text-align: center;
+}
+
+/* Text */
+.loading-text {
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+/* Animated dots */
+.dots::after {
+    content: "";
+    animation: dots 1.5s steps(3, end) infinite;
+}
+
+@keyframes dots {
+    0%   { content: ""; }
+    33%  { content: "."; }
+    66%  { content: ".."; }
+    100% { content: "..."; }
+}
+
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+</style>
+</head>
+
+<body>
+    <div class="loading-box">
+        <div class="loading-text">
+            Generating<span class="dots"></span>
+        </div>
+    </div>
+<audio id="gen-sound" src="generate.mp3" preload="auto" loop></audio>
+    <!-- 👇 ADD THIS HERE -->
+   <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('gen-sound');
+    audio.volume = 0.6; // Set to a comfortable level
+    
+    // Play immediately
+    audio.play().catch(e => {
+        console.log("Audio waiting for user interaction");
+        // Fallback: start on mouse move if browser blocks initial play
+        window.addEventListener('mousemove', () => audio.play(), { once: true });
+    });
+});
+
+setTimeout(() => {
+    document.body.classList.add("fade-out");
+    // 👈 Fade the audio out slightly with the page for a professional touch
+    const audio = document.getElementById('gen-sound');
+    const fadeAudio = setInterval(() => {
+        if (audio.volume > 0.1) {
+            audio.volume -= 0.1;
+        } else {
+            clearInterval(fadeAudio);
+            audio.pause();
+        }
+    }, 50);
+}, 2000);
+
+setTimeout(() => {
+    window.location.href = "job-offer-workingadult.html";
+}, 2600);
+</script>
+
+
+</body>
+</html>

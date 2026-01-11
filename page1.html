@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://fmscmd.com/xdlab/imda/iframe-template.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+        <!-- change the title accordingly-->
+        <title>Page 1</title>
+        <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+
+        <style>
+            /* Body */
+body {
+    background: url("Frame 9 2.0.png") no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    margin: 0;
+    font-family: 'Play', sans-serif;
+}
+
+/* Header */
+/* Header */
+#title {
+    color: white;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 85px;
+    letter-spacing: 2px;
+    text-align: center;
+    transform: translateY(90px);
+    
+    white-space: nowrap;
+    overflow: hidden;
+    /* Cursor lines removed from here */
+}
+
+@keyframes blink {
+    0%, 50%, 100% { border-color: cyan; }
+    25%, 75% { border-color: transparent; }
+}
+
+/* Subtext */
+#subtext {
+    /* Positioning like before */
+    transform: translate(142px, 35px); 
+    font-family: 'Play', sans-serif;
+    font-size: 19px;
+    color: white;
+}
+
+#subtextText {
+    display: inline-block; /* important for transform and cursor */
+    border-right: 2px solid cyan;  /* blinking cursor */
+    white-space: nowrap;
+    overflow: hidden;
+    animation: blink 1s step-end infinite;
+}
+
+
+
+/* Button wrapper */
+.btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 120px;
+}
+
+/* Glowing BEGIN button */
+.begin-btn {
+    padding: 16px 44px;
+    font-family: 'Play', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+
+    color: cyan;
+    background: transparent;
+    border: 2px solid cyan;
+    cursor: pointer;
+
+    box-shadow: 0 0 10px cyan;
+    transition: all 0.3s ease;
+    animation: glowLoop 2.5s ease-in-out infinite;
+}
+
+.begin-btn:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 20px cyan, 0 0 40px cyan;
+}
+
+@keyframes glowLoop {
+    0% { box-shadow: 0 0 8px cyan; }
+    50% { box-shadow: 0 0 18px cyan, 0 0 35px cyan; }
+    100% { box-shadow: 0 0 8px cyan; }
+}
+
+
+
+
+        
+
+
+        </style>
+    </head>
+    <body>
+    <!-- Header with typewriter -->
+    <h1 id="title"><span id="text"></span></h1>
+    
+    <!-- Subtext -->
+    <p id="subtext"><span id="subtextText"></span></p>
+
+
+    <!-- Button wrapper, initially hidden -->
+    <div class="btn-wrapper" id="btnWrapper" style="opacity:0; pointer-events:none;">
+        <a href="page2.html" class="begin-btn" onclick="fadePage(event)">BEGIN</a>
+    </div>
+<audio id="hover-sound" src="select.mp3" preload="auto"></audio>
+
+    <!-- Scripts -->
+    <script>
+        // Header text
+const headerText = "Looks Can Scam";
+const headerSpan = document.getElementById("text");
+
+// Subtext
+const subtextText = "An AI Phishing Scam";
+const subtextSpan = document.getElementById("subtextText");
+
+const btnWrapper = document.getElementById("btnWrapper");
+
+let headerIndex = 0;
+let subtextIndex = 0;
+
+// Typewriter for header
+function typeHeader() {
+    if (headerIndex < headerText.length) {
+        headerSpan.innerHTML += headerText.charAt(headerIndex);
+        headerIndex++;
+        setTimeout(typeHeader, 150); // header typing speed
+    } else {
+        // After header finishes, start subtext typing
+        typeSubtext();
+    }
+}
+
+// Typewriter for subtext
+function typeSubtext() {
+    if (subtextIndex < subtextText.length) {
+        subtextSpan.innerHTML += subtextText.charAt(subtextIndex);
+        subtextIndex++;
+        setTimeout(typeSubtext, 100); // subtext typing speed
+    } else {
+        // After subtext finishes, show button
+        btnWrapper.style.transition = "opacity 0.6s ease";
+        btnWrapper.style.opacity = "1";
+        btnWrapper.style.pointerEvents = "auto";
+    }
+}
+
+// Start typing when DOM ready
+document.addEventListener("DOMContentLoaded", typeHeader);
+
+// Get the button element
+const beginBtn = document.querySelector('.begin-btn');
+const hoverSound = document.getElementById('hover-sound');
+
+// Set volume (optional - 0.5 is 50%)
+hoverSound.volume = 0.5;
+
+// Play sound on hover
+beginBtn.addEventListener('mouseenter', () => {
+    // Reset sound to start (in case user hovers back and forth quickly)
+    hoverSound.currentTime = 0;
+    hoverSound.play().catch(e => console.log("Audio play prevented until user interaction."));
+});
+
+    </script>
+</body>
+
+</html>

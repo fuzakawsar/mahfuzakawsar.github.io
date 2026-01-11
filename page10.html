@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typewriter with Cursor</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("Frame 9 2.0.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Play', sans-serif;
+    color: ghostwhite;
+    overflow: hidden;
+    text-align: center;
+    flex-direction: column;
+}
+
+#typewriter {
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+.line {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.truth {
+    font-size: 20px;
+}
+
+.impact {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.cursor {
+    display: inline;
+    color: cyan;
+    animation: blink 0.7s step-start infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+
+/* Next button */
+.btn-wrapper {
+    margin-top: 40px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+
+.next-btn {
+    padding: 10px 28px;
+    font-family: 'Play', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: cyan;
+    background: transparent;
+    border: 2px solid cyan;
+    cursor: pointer;
+    box-shadow: 0 0 8px cyan;
+    transition: all 0.3s ease;
+    animation: glowLoop 2.5s ease-in-out infinite;
+    text-decoration: none;
+}
+
+.next-btn:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 16px cyan, 0 0 30px cyan;
+}
+
+@keyframes glowLoop {
+    0% { box-shadow: 0 0 6px cyan; }
+    50% { box-shadow: 0 0 14px cyan, 0 0 26px cyan; }
+    100% { box-shadow: 0 0 6px cyan; }
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div id="typewriter"></div>
+
+<div class="btn-wrapper" id="btnWrapper">
+    <a href="page11.html" class="next-btn">NEXT</a>
+</div>
+<audio id="readout-audio" src="page10.mp3" preload="auto"></audio>
+<audio id="hover-audio" src="select-sound.mp3" preload="auto"></audio>
+<script>
+const typewriter = document.getElementById("typewriter");
+const btnWrapper = document.getElementById("btnWrapper");
+// Move these up so they are easily accessible to all functions
+const hoverAudio = document.getElementById('hover-audio');
+const nextBtn = document.querySelector('.next-btn');
+
+const steps = [
+    { text: "You learned how scammers think.", speed: 50, pause: 800 },
+    { text: "You tried spotting scams as a victim.", speed: 50, pause: 800 },
+    { text: "You tried detecting AI.", speed: 50, pause: 1200 },
+    { text: "And here’s the truth:", speed: 50, pause: 1500, className: "truth" },
+    { text: "Scams work even when you know they exist.", speed: 55, pause: 500, className: "impact" }
+];
+
+// --- ADD THE HOVER LOGIC HERE ---
+nextBtn.addEventListener('mouseenter', () => {
+    hoverAudio.volume = 0.5;
+    hoverAudio.currentTime = 0;
+    hoverAudio.play().catch(e => console.log("Hover sound blocked by browser"));
+});
+
+async function typeLine(step) {
+    return new Promise(resolve => {
+        const line = document.createElement("span");
+        line.className = "line" + (step.className ? " " + step.className : "");
+        typewriter.appendChild(line);
+
+        const cursor = document.createElement("span");
+        cursor.className = "cursor";
+        cursor.textContent = "|";
+        line.appendChild(cursor);
+
+        let charIndex = 0;
+        function typeChar() {
+            if(charIndex < step.text.length) {
+                cursor.insertAdjacentText('beforebegin', step.text[charIndex]);
+                charIndex++;
+                setTimeout(typeChar, step.speed);
+            } else {
+                setTimeout(() => {
+                    cursor.remove();
+                    resolve();
+                }, step.pause);
+            }
+        }
+        typeChar();
+    });
+}
+
+async function startTyping() {
+    const audio = document.getElementById('readout-audio');
+    audio.volume = 1.0;
+    audio.play().catch(e => console.log("Voiceover waiting for interaction"));
+
+    for (const step of steps) {
+        await typeLine(step);
+    }
+
+    const finalBlock = document.createElement("div");
+    finalBlock.className = "fade-in";
+    finalBlock.innerHTML = `
+        <span class="line">AI didn’t invent scams.</span>
+        <span class="line">It made them faster, cheaper, and personal.</span>
+    `;
+    typewriter.appendChild(finalBlock);
+
+    // This makes the button "hittable" by the mouse
+    btnWrapper.style.opacity = "1";
+    btnWrapper.style.pointerEvents = "auto";
+}
+
+startTyping();
+</script>
+
+</body>
+</html>
